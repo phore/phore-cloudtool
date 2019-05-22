@@ -5,6 +5,7 @@ namespace Phore\CloudTool;
 
 
 use Leuffen\TextTemplate\TextTemplate;
+use mysql_xdevapi\Exception;
 use Phore\FileSystem\PhoreDirectory;
 use Phore\FileSystem\PhoreFile;
 use Phore\FileSystem\PhoreUri;
@@ -64,10 +65,13 @@ class PhoreCloudToolParser extends TextTemplate
         phore_out("Parsing $templateFile -> $targetFile");
 
         $this->loadTemplate($templateFile->get_contents());
-        $configText = $this->apply([
-            "target_file" => $targetFile->getUri()
-        ], false);
-
+        try {
+            $configText = $this->apply([
+                "target_file" => $targetFile->getUri()
+            ], false);
+        } catch (\Exception $e) {
+            throw new \InvalidArgumentException("Parsing $templateFile: " . $e->getMessage());
+        }
         if ($targetFile->isFile()) {
             if ($targetFile->get_contents() === $configText) {
                 phore_out("File not modified.");
