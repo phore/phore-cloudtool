@@ -1,0 +1,29 @@
+#!/usr/bin/php
+<?php
+namespace OttoDB;
+
+use Phore\Cli\CliController;
+use Phore\CloudTool\PhoreCloudTool;
+
+if (is_dir(__DIR__ . "/../vendor")) {
+    require __DIR__ . "/../vendor/autoload.php";
+} else {
+    require __DIR__ . "/../autoload.php";
+}
+
+
+$templateDir = getcwd();
+if (isset ($argv[1]))
+    $templateDir = $argv[1];
+
+$targetDir = "/";
+if (isset ($argv[2]))
+    $targetDir = $argv[2];
+
+
+
+$ct = new PhoreCloudTool($templateDir, $targetDir);
+$ct->parseRecursive();
+
+
+echo "\n";

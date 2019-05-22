@@ -1,0 +1,33 @@
+{
+    "name": "phore/cloudtool",
+    "type": "library",
+    "description": "Script to update config files using template",
+    "keywords": ["text", "template", "config"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matthias Leuffen",
+            "email": "matthes@leuffen.de"
+        }
+    ],
+    "bin": [
+        "bin/cloudtool"
+    ],
+    "require": {
+        "php": ">=7.2",
+        "ext-pcre": "*",
+        "phore/cli": "dev-master",
+        "text/template": "dev-master",
+        "phore/filesystem": "dev-master",
+        "phore/system": "dev-master"
+    },
+    "require-dev": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Phore\\CloudTool\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}

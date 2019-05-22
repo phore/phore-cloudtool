@@ -1,0 +1,13 @@
+version: 1
+
+from: "infracamp/kickstart-flavor-gaia:testing"
+
+
+command:
+  build:
+    - "composer update"
+
+  test:
+
+  demo:
+    - "bin/cloudtool /opt/demo /tmp
