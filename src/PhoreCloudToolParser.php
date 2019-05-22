@@ -66,7 +66,7 @@ class PhoreCloudToolParser extends TextTemplate
         $this->loadTemplate($templateFile->get_contents());
         $configText = $this->apply([
             "target_file" => $targetFile->getUri()
-        ]);
+        ], false);
 
         if ($targetFile->isFile()) {
             if ($targetFile->get_contents() === $configText) {
