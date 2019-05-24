@@ -3,6 +3,7 @@
     "type": "library",
     "description": "Script to update config files using template",
     "keywords": ["text", "template", "config"],
+    "homepage": "http://infracamp.org/phore",
     "license": "MIT",
     "authors": [
         {
