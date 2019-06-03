@@ -19,6 +19,10 @@ class PhoreCloudTool
      */
     private $targetDir;
 
+    private $environment = [];
+    
+    private $isFileModified = false;
+    
     public function __construct(string $templateDir, string $targetDir)
     {
 
@@ -28,14 +32,31 @@ class PhoreCloudTool
 
 
 
+    public function setEnvironment(array $environment)
+    {
+        $this->environment = $environment;    
+    }
 
+    
 
+    /**
+     * 
+     */
+    public function isFileModified() : bool
+    {
+        return $this->isFileModified;
+    }
+    
+    
     public function parseRecursive()
     {
+        $this->isFileModified = false;
         $this->templateDir->walkR(function(PhoreUri $relpath) {
             $relpath = phore_uri( substr( $relpath->getUri(), strlen($this->templateDir)));
             $tpl = new PhoreCloudToolParser();
-            $tpl->parseFile($relpath, $this->templateDir, $this->targetDir);
+            $tpl->parseFile($relpath, $this->templateDir, $this->targetDir, $this->environment);
+            if ($tpl->isFileModified())
+                $this->isFileModified = true;
         });
     }
 
