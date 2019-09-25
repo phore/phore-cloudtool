@@ -1,9 +1,9 @@
-{file owner="root" mode="0755"}
+{{target owner="root" mode="0755"}}
 
 
-{on_modify}
+{{on_modify}}
 echo "modified!"
-{/on_modify}
+{{/on_modify}}
 
 
-Hello {load env="USER"}
+Hello {{load env="USER"}}

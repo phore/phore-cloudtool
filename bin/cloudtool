@@ -14,7 +14,7 @@ if (is_dir(__DIR__ . "/../vendor")) {
 }
 
 
-set_exception_handler(function (\Exception $ex) {
+set_exception_handler(function ($ex) {
     phore_log()->emergency("Error: " . $ex->getMessage() . " (add -v to see full exception)");
 
     PhoreConsoleColor::SetColor("black", "red");
@@ -40,7 +40,7 @@ $targetDir =    $opts->get("target", new \InvalidArgumentException("Parameter mi
 $silent =       $opts->has("s");
 
 if ($silent) {
-    phore_log()->setVerbosity(LogLevel::EMERGENCY);
+    phore_log()->setLogLevel(LogLevel::EMERGENCY);
 }
 
 

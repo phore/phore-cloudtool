@@ -35,13 +35,13 @@ class PhoreCloudToolParser extends TextTemplate
             if (isset ($paramArr["owner"])) {
                 $this->onAfterSave[] = function () use ($context, $paramArr) {
                     $this->log->notice("chown " . $paramArr["owner"]);
-                    chown($context["target_file"], $paramArr["owner"]);
+                    chown($context["_target_file"], $paramArr["owner"]);
                 };
             }
             if (isset ($paramArr["mode"])) {
                 $this->onAfterSave[] = function () use ($context, $paramArr) {
                     $this->log->notice("chmod " . $paramArr["mode"]);
-                    chmod($context["target_file"], (int)$paramArr["mode"]);
+                    chmod($context["_target_file"], (int)$paramArr["mode"]);
                 };
             }
             return "";
