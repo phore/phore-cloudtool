@@ -20,10 +20,16 @@ class PhoreCloudTool
      */
     private $targetDir;
 
+
     /**
      * @var LoggerInterface
      */
     private $logger;
+
+    private $environment = [];
+    
+    private $isFileModified = false;
+
 
     public function __construct(string $templateDir, string $targetDir, LoggerInterface $logger)
     {
@@ -34,15 +40,34 @@ class PhoreCloudTool
 
 
 
+    public function setEnvironment(array $environment)
+    {
+        $this->environment = $environment;    
+    }
 
+    
 
+    /**
+     * 
+     */
+    public function isFileModified() : bool
+    {
+        return $this->isFileModified;
+    }
+    
+    
     public function parseRecursive()
     {
+        $this->isFileModified = false;
         $this->templateDir->walkR(function(PhoreUri $relpath) {
             $relpath = phore_uri( substr( $relpath->getUri(), strlen($this->templateDir)));
+
             $this->logger->notice("Walking: $this->templateDir / $relpath...");
+
             $tpl = new PhoreCloudToolParser("", $this->logger);
-            $tpl->parseFile($relpath, $this->templateDir, $this->targetDir);
+            $tpl->parseFile($relpath, $this->templateDir, $this->targetDir, $this->environment);
+            if ($tpl->isFileModified())
+                $this->isFileModified = true;
         });
     }
 

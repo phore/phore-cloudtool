@@ -5,9 +5,7 @@ namespace Phore\CloudTool;
 
 
 use Leuffen\TextTemplate\TextTemplate;
-use mysql_xdevapi\Exception;
 use Phore\FileSystem\PhoreDirectory;
-use Phore\FileSystem\PhoreFile;
 use Phore\FileSystem\PhoreUri;
 use Psr\Log\LoggerInterface;
 
@@ -24,6 +22,8 @@ class PhoreCloudToolParser extends TextTemplate
         parent::__construct($text);
         $this->log = $logger;
 
+        $this->setOpenCloseTagChars("{{", "}}");
+        
         $this->addSection("on_modify", function ($content) {
             $this->onModified[] = function () use ($content) {
                 $this->log->notice("on_modify: executing: $content > " . phore_exec($content));
@@ -47,6 +47,10 @@ class PhoreCloudToolParser extends TextTemplate
             return "";
         });
 
+        $this->addFilter("join", function ($input, $joinChar = " ") {
+            return implode($joinChar, $input);
+        });
+
         $this->addFunction("load", function($paramArr, $command, $context, $cmdParam) {
             if (isset ($paramArr["env"]))
                 return getenv($paramArr["env"]);
@@ -59,7 +63,15 @@ class PhoreCloudToolParser extends TextTemplate
 
     public $onModified = [];
 
-    public function parseFile(PhoreUri $relPath, PhoreDirectory $templateRoot, PhoreDirectory $targetDirectory)
+    private $isFileModified = false;
+    
+    public function isFileModified() : bool
+    {
+        return $this->isFileModified;
+    }
+        
+    
+    public function parseFile(PhoreUri $relPath, PhoreDirectory $templateRoot, PhoreDirectory $targetDirectory, array $environment=[])
     {
 
 
@@ -72,20 +84,23 @@ class PhoreCloudToolParser extends TextTemplate
         $this->log->notice("Parsing $templateFile -> $targetFile");
 
         $this->loadTemplate($templateFile->get_contents());
+        
+        $environment["_target_file"] = $targetFile->getUri();
+        
         try {
-            $configText = $this->apply([
-                "target_file" => $targetFile->getUri()
-            ], false);
+            $configText = $this->apply($environment, false);
         } catch (\Exception $e) {
             throw new \InvalidArgumentException("Parsing $templateFile: " . $e->getMessage());
         }
         if ($targetFile->isFile()) {
             if ($targetFile->get_contents() === $configText) {
                 $this->log->notice("File not modified.");
+
                 return false;
             }
         }
-
+        
+        $this->isFileModified = true;
         $targetFile->getDirname()->asDirectory()->mkdir(0755);
         $targetFile->set_contents($configText);
         $this->log->notice("Saving modified file and running triggers.");
