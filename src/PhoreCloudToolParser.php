@@ -9,17 +9,24 @@ use mysql_xdevapi\Exception;
 use Phore\FileSystem\PhoreDirectory;
 use Phore\FileSystem\PhoreFile;
 use Phore\FileSystem\PhoreUri;
+use Psr\Log\LoggerInterface;
 
 class PhoreCloudToolParser extends TextTemplate
 {
+    /**
+     * @var LoggerInterface
+     */
+    private $log;
 
-    public function __construct($text = "")
+
+    public function __construct($text = "", LoggerInterface $logger)
     {
         parent::__construct($text);
+        $this->log = $logger;
 
         $this->addSection("on_modify", function ($content) {
             $this->onModified[] = function () use ($content) {
-                phore_out("on_modify: executing: $content > " . phore_exec($content));
+                $this->log->notice("on_modify: executing: $content > " . phore_exec($content));
             };
             return "";
         });
@@ -27,13 +34,13 @@ class PhoreCloudToolParser extends TextTemplate
         $this->addFunction("target", function ($paramArr, $command, $context, $cmdParam) {
             if (isset ($paramArr["owner"])) {
                 $this->onAfterSave[] = function () use ($context, $paramArr) {
-                    phore_out("chown " . $paramArr["owner"]);
+                    $this->log->notice("chown " . $paramArr["owner"]);
                     chown($context["target_file"], $paramArr["owner"]);
                 };
             }
             if (isset ($paramArr["mode"])) {
                 $this->onAfterSave[] = function () use ($context, $paramArr) {
-                    phore_out("chmod " . $paramArr["mode"]);
+                    $this->log->notice("chmod " . $paramArr["mode"]);
                     chmod($context["target_file"], (int)$paramArr["mode"]);
                 };
             }
@@ -62,7 +69,7 @@ class PhoreCloudToolParser extends TextTemplate
         $templateFile = $templateRoot->withSubPath($relPath)->assertFile();
         $targetFile = $targetDirectory->withSubPath($relPath)->asFile();
 
-        phore_out("Parsing $templateFile -> $targetFile");
+        $this->log->notice("Parsing $templateFile -> $targetFile");
 
         $this->loadTemplate($templateFile->get_contents());
         try {
@@ -74,14 +81,14 @@ class PhoreCloudToolParser extends TextTemplate
         }
         if ($targetFile->isFile()) {
             if ($targetFile->get_contents() === $configText) {
-                phore_out("File not modified.");
+                $this->log->notice("File not modified.");
                 return false;
             }
         }
 
         $targetFile->getDirname()->asDirectory()->mkdir(0755);
         $targetFile->set_contents($configText);
-        phore_out("Saving modified file and running triggers.");
+        $this->log->notice("Saving modified file and running triggers.");
         foreach ($this->onAfterSave as $fn)
             $fn();
 

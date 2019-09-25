@@ -4,72 +4,35 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "59971935b429f86856900a96231ef5a9",
+    "content-hash": "a7fbbc90f37a7231c06e1c990f5e694f",
     "packages": [
-        {
-            "name": "phore/cli",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phore/cli.git",
-                "reference": "53d9ae97398c7356c85740543bb52459a0337153"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phore/cli/zipball/53d9ae97398c7356c85740543bb52459a0337153",
-                "reference": "53d9ae97398c7356c85740543bb52459a0337153",
-                "shasum": ""
-            },
-            "require": {
-                "phore/di-base": "2.1.1",
-                "php": ">=7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Phore\\Cli\\": "/src/Cli/"
-                },
-                "exclude-from-classmap": [
-                    "/test/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Matthias Leuffen",
-                    "email": "matthes@leuffen.de"
-                }
-            ],
-            "description": "phore cli interface",
-            "homepage": "https://getgismo.com",
-            "keywords": [
-                "Phore",
-                "framework"
-            ],
-            "time": "2019-05-03T14:49:17+00:00"
-        },
         {
             "name": "phore/core",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phore/phore-core.git",
-                "reference": "e5c21eaee40fa5c4a29860272dd28fd8b56e4434"
+                "reference": "7061bf924f455daff65dfce03ca345f1c5b72d34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phore/phore-core/zipball/e5c21eaee40fa5c4a29860272dd28fd8b56e4434",
-                "reference": "e5c21eaee40fa5c4a29860272dd28fd8b56e4434",
+                "url": "https://api.github.com/repos/phore/phore-core/zipball/7061bf924f455daff65dfce03ca345f1c5b72d34",
+                "reference": "7061bf924f455daff65dfce03ca345f1c5b72d34",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1"
             },
             "require-dev": {
+                "ext-json": "*",
+                "ext-sodium": "*",
+                "ext-yaml": "*",
                 "phpunit/phpunit": "*"
+            },
+            "suggest": {
+                "ext-json": "Json encoding parsing",
+                "ext-sodium": "Encryption functions",
+                "ext-yaml": "Yaml encoding parsing"
             },
             "type": "library",
             "autoload": {
@@ -91,58 +54,8 @@
                 }
             ],
             "description": "Phore core library",
-            "time": "2019-05-22T12:20:18+00:00"
-        },
-        {
-            "name": "phore/di-base",
-            "version": "v2.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phore/phore-di-base.git",
-                "reference": "fef0410bef4d3db8a4c586e85f3c6d6bec830a1b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phore/phore-di-base/zipball/fef0410bef4d3db8a4c586e85f3c6d6bec830a1b",
-                "reference": "fef0410bef4d3db8a4c586e85f3c6d6bec830a1b",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.0",
-                "psr/container": "^1.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Phore\\Di\\": "src/Di"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Matthias Leuffen",
-                    "email": "matthes@leuffen.de"
-                }
-            ],
-            "description": "Dependency Injection Base Classes and Interfaces",
-            "homepage": "https://getgismo.com",
-            "keywords": [
-                "Phore",
-                "dependency injection",
-                "di"
-            ],
-            "time": "2018-07-10T05:48:13+00:00"
+            "homepage": "https://infracamp.org/phore/",
+            "time": "2019-09-25T23:06:22+00:00"
         },
         {
             "name": "phore/filesystem",
@@ -150,12 +63,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phore/phore-filesystem.git",
-                "reference": "951b0a0ac23cee2d6f04c2ec73d933c2f435b841"
+                "reference": "a90b24d1fb79a92b4e9b9e89814e8fdf3b7cc00b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phore/phore-filesystem/zipball/951b0a0ac23cee2d6f04c2ec73d933c2f435b841",
-                "reference": "951b0a0ac23cee2d6f04c2ec73d933c2f435b841",
+                "url": "https://api.github.com/repos/phore/phore-filesystem/zipball/a90b24d1fb79a92b4e9b9e89814e8fdf3b7cc00b",
+                "reference": "a90b24d1fb79a92b4e9b9e89814e8fdf3b7cc00b",
                 "shasum": ""
             },
             "require": {
@@ -188,7 +101,55 @@
                 }
             ],
             "description": "Acces files layer",
-            "time": "2019-05-21T22:56:46+00:00"
+            "time": "2019-09-20T11:31:28+00:00"
+        },
+        {
+            "name": "phore/log",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phore/phore-log.git",
+                "reference": "c6d62b5df28afc64bae41a37d3c2dda5d403fd8b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phore/phore-log/zipball/c6d62b5df28afc64bae41a37d3c2dda5d403fd8b",
+                "reference": "c6d62b5df28afc64bae41a37d3c2dda5d403fd8b",
+                "shasum": ""
+            },
+            "require": {
+                "phore/core": "dev-master",
+                "php": ">=7.1",
+                "psr/log": "^1.1"
+            },
+            "require-dev": {
+                "nette/tester": "^2.1@dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Phore\\Log\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matthias Leuffen",
+                    "email": "m@tth.es"
+                }
+            ],
+            "description": "Logging class",
+            "keywords": [
+                "Keyword1",
+                "Keyword2"
+            ],
+            "time": "2019-09-25T17:27:32+00:00"
         },
         {
             "name": "phore/system",
@@ -196,12 +157,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phore/phore-system.git",
-                "reference": "564f41ea790d4fb564d65f1533a4aeb9f05dabf0"
+                "reference": "3fc5794acc87945893c07ed6e54b3168257330be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phore/phore-system/zipball/564f41ea790d4fb564d65f1533a4aeb9f05dabf0",
-                "reference": "564f41ea790d4fb564d65f1533a4aeb9f05dabf0",
+                "url": "https://api.github.com/repos/phore/phore-system/zipball/3fc5794acc87945893c07ed6e54b3168257330be",
+                "reference": "3fc5794acc87945893c07ed6e54b3168257330be",
                 "shasum": ""
             },
             "require": {
@@ -231,56 +192,7 @@
                 }
             ],
             "description": "Execute shell commands",
-            "time": "2019-04-10T17:15:17+00:00"
-        },
-        {
-            "name": "psr/container",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/container.git",
-                "reference": "014d250daebff39eba15ba990eeb2a140798e77c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/container/zipball/014d250daebff39eba15ba990eeb2a140798e77c",
-                "reference": "014d250daebff39eba15ba990eeb2a140798e77c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Container\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
-                }
-            ],
-            "description": "Common Container Interface (PHP FIG PSR-11)",
-            "homepage": "https://github.com/php-fig/container",
-            "keywords": [
-                "PSR-11",
-                "container",
-                "container-interface",
-                "container-interop",
-                "psr"
-            ],
-            "time": "2018-12-29T15:36:03+00:00"
+            "time": "2019-09-12T16:19:37+00:00"
         },
         {
             "name": "psr/http-message",
@@ -288,12 +200,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-message.git",
-                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
+                "reference": "efd67d1dc14a7ef4fc4e518e7dee91c271d524e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
-                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/efd67d1dc14a7ef4fc4e518e7dee91c271d524e4",
+                "reference": "efd67d1dc14a7ef4fc4e518e7dee91c271d524e4",
                 "shasum": ""
             },
             "require": {
@@ -330,7 +242,54 @@
                 "request",
                 "response"
             ],
-            "time": "2016-08-06T14:39:51+00:00"
+            "time": "2019-08-29T13:16:46+00:00"
+        },
+        {
+            "name": "psr/log",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "c4421fcac1edd5a324fda73e589a5cf96e52ffd0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/c4421fcac1edd5a324fda73e589a5cf96e52ffd0",
+                "reference": "c4421fcac1edd5a324fda73e589a5cf96e52ffd0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2018-11-21T13:42:00+00:00"
         },
         {
             "name": "text/template",
@@ -338,12 +297,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dermatthes/text-template.git",
-                "reference": "5ab7b350f4356621e2e26ad06e1265aaec162520"
+                "reference": "a985f3852c91837a96ad2c1c8a1f7921e0a3999f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dermatthes/text-template/zipball/5ab7b350f4356621e2e26ad06e1265aaec162520",
-                "reference": "5ab7b350f4356621e2e26ad06e1265aaec162520",
+                "url": "https://api.github.com/repos/dermatthes/text-template/zipball/a985f3852c91837a96ad2c1c8a1f7921e0a3999f",
+                "reference": "a985f3852c91837a96ad2c1c8a1f7921e0a3999f",
                 "shasum": ""
             },
             "require": {
@@ -385,17 +344,17 @@
                 "text",
                 "twig"
             ],
-            "time": "2019-04-15T07:52:34+00:00"
+            "time": "2019-09-25T01:01:21+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "phore/cli": 20,
         "text/template": 20,
         "phore/filesystem": 20,
-        "phore/system": 20
+        "phore/system": 20,
+        "phore/log": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

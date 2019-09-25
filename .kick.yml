@@ -10,4 +10,4 @@ command:
   test:
 
   demo:
-    - "bin/cloudtool /opt/demo /tmp
+    - "bin/cloudtool --tpldir /opt/demo --target /tmp"

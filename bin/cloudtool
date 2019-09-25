@@ -1,9 +1,11 @@
 #!/usr/bin/php
 <?php
-namespace OttoDB;
+namespace Phore;
 
 use Phore\Cli\CliController;
 use Phore\CloudTool\PhoreCloudTool;
+use Phore\Core\Helper\PhoreConsoleColor;
+use Psr\Log\LogLevel;
 
 if (is_dir(__DIR__ . "/../vendor")) {
     require __DIR__ . "/../vendor/autoload.php";
@@ -12,18 +14,56 @@ if (is_dir(__DIR__ . "/../vendor")) {
 }
 
 
-$templateDir = getcwd();
-if (isset ($argv[1]))
-    $templateDir = $argv[1];
+set_exception_handler(function (\Exception $ex) {
+    phore_log()->emergency("Error: " . $ex->getMessage() . " (add -v to see full exception)");
 
-$targetDir = "/";
-if (isset ($argv[2]))
-    $targetDir = $argv[2];
+    PhoreConsoleColor::SetColor("black", "red");
+    echo "\n";
+    echo "\n  " . implode(" ", $GLOBALS["argv"]);
+    echo "\n  Emergency: " . $ex->getMessage() . "\n";
+    PhoreConsoleColor::Default();
+    echo "\n";
+
+    exit(254);
+});
+
+$opts = phore_getopt("hs", ["tpldir:", "target:"]);
+
+if ($opts->has("h") || $opts->has("help")) {
+    printHelp();
+    exit;
+}
 
 
+$templateDir =  $opts->get("tpldir", new \InvalidArgumentException("Parameter missing: --tpldir <path> is required parameter"));
+$targetDir =    $opts->get("target", new \InvalidArgumentException("Parameter missing: --target <path> is required parameter."));
+$silent =       $opts->has("s");
 
-$ct = new PhoreCloudTool($templateDir, $targetDir);
+if ($silent) {
+    phore_log()->setVerbosity(LogLevel::EMERGENCY);
+}
+
+
+$ct = new PhoreCloudTool($templateDir, $targetDir, phore_log());
 $ct->parseRecursive();
 
+function printHelp(string $errorMsg=null)
+{
+    if ($errorMsg !== null)
+        $errorMsg .= "\nSee '" . $GLOBALS["argv"][0] . " --help'\n";
+    echo <<<EOT
+$errorMsg
 
-echo "\n";
+Usage: {$GLOBALS["argv"][0]} [OPTIONS] --tpldir path --target path
+
+Parse template files from 'tpldir' and copy changed ones to 'target'.
+
+Options:
+  -h, --help              Show Help and exit
+      --tpldir string     The template directory to read templates from (default: PWD)
+      --target string     The target directory (default: /)
+  -s                      Silent mode (don't output data except for errors)
+
+
+EOT;
+}
