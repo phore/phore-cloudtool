@@ -81,7 +81,7 @@ class PhoreCloudToolParser extends TextTemplate
         $templateFile = $templateRoot->withSubPath($relPath)->assertFile();
         $targetFile = $targetDirectory->withSubPath($relPath)->asFile();
 
-        $this->log->notice("Parsing $templateFile -> $targetFile");
+        $this->log->debug("Parsing $templateFile -> $targetFile");
 
         $this->loadTemplate($templateFile->get_contents());
         
@@ -94,7 +94,7 @@ class PhoreCloudToolParser extends TextTemplate
         }
         if ($targetFile->isFile()) {
             if ($targetFile->get_contents() === $configText) {
-                $this->log->notice("File not modified.");
+                $this->log->debug("File not modified.");
 
                 return false;
             }
@@ -103,7 +103,7 @@ class PhoreCloudToolParser extends TextTemplate
         $this->isFileModified = true;
         $targetFile->getDirname()->asDirectory()->mkdir(0755);
         $targetFile->set_contents($configText);
-        $this->log->notice("Saving modified file and running triggers.");
+        $this->log->debug("Saving modified file and running triggers.");
         foreach ($this->onAfterSave as $fn)
             $fn();
 

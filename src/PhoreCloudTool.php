@@ -62,7 +62,7 @@ class PhoreCloudTool
         $this->templateDir->walkR(function(PhoreUri $relpath) {
             $relpath = phore_uri( substr( $relpath->getUri(), strlen($this->templateDir)));
 
-            $this->logger->notice("Walking: $this->templateDir / $relpath...");
+            $this->logger->debug("Walking: $this->templateDir / $relpath...");
 
             $tpl = new PhoreCloudToolParser("", $this->logger);
             $tpl->parseFile($relpath, $this->templateDir, $this->targetDir, $this->environment);
