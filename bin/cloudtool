@@ -27,7 +27,7 @@ set_exception_handler(function ($ex) {
     exit(254);
 });
 
-$opts = phore_getopt("hs", ["tpldir:", "target:", "onchange:", "debug"]);
+$opts = phore_getopt("hs", ["tpldir:", "target:", "onchange:", "debug", "watch"]);
 
 if ($opts->has("h") || $opts->has("help")) {
     printHelp();
@@ -38,7 +38,7 @@ if ($opts->has("h") || $opts->has("help")) {
 $templateDir =  $opts->get("tpldir", new \InvalidArgumentException("Parameter missing: --tpldir <path> is required parameter"));
 $targetDir =    $opts->get("target", new \InvalidArgumentException("Parameter missing: --target <path> is required parameter."));
 $onChange =    $opts->get("onchange", null);
-
+$watch =        $opts->has("watch");
 $silent =       $opts->has("s");
 $debug =        $opts->has("debug");
 
@@ -50,13 +50,17 @@ if ($debug) {
     phore_log()->setLogLevel(LogLevel::DEBUG);
 }
 
-
-$ct = new PhoreCloudTool($templateDir, $targetDir, phore_log());
-$ct->parseRecursive();
-if ($onChange !== null && $ct->isFileModified()) {
-    phore_log()->notice("Some files changed. Executing --onchange action: '$onChange'");
-    phore_exec($onChange);
-}
+do {
+    $ct = new PhoreCloudTool($templateDir, $targetDir, phore_log());
+    $ct->parseRecursive();
+    if ($onChange !== null && $ct->isFileModified()) {
+        phore_log()->notice("Some files changed. Executing --onchange action: '$onChange'");
+        phore_exec($onChange);
+    }
+    if ($watch) {
+        sleep(1);
+    }
+} while ($watch);
 
 function printHelp(string $errorMsg=null)
 {
@@ -76,6 +80,7 @@ Options:
       --onchange string   Execute a script if any file was changed
   -s                      Silent mode (don't output data except for errors)
       --debug             Be very verbose (debugging). Overrides -s
+      --watch             Parse files if they change 
 
 EOT;
 }
