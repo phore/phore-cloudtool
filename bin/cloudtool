@@ -27,7 +27,7 @@ set_exception_handler(function ($ex) {
     exit(254);
 });
 
-$opts = phore_getopt("hs", ["tpldir:", "target:"]);
+$opts = phore_getopt("hs", ["tpldir:", "target:", "onchange:", "debug"]);
 
 if ($opts->has("h") || $opts->has("help")) {
     printHelp();
@@ -37,15 +37,26 @@ if ($opts->has("h") || $opts->has("help")) {
 
 $templateDir =  $opts->get("tpldir", new \InvalidArgumentException("Parameter missing: --tpldir <path> is required parameter"));
 $targetDir =    $opts->get("target", new \InvalidArgumentException("Parameter missing: --target <path> is required parameter."));
-$silent =       $opts->has("s");
+$onChange =    $opts->get("onchange", null);
 
+$silent =       $opts->has("s");
+$debug =        $opts->has("debug");
+
+phore_log()->setLogLevel(LogLevel::NOTICE);
 if ($silent) {
     phore_log()->setLogLevel(LogLevel::EMERGENCY);
+}
+if ($debug) {
+    phore_log()->setLogLevel(LogLevel::DEBUG);
 }
 
 
 $ct = new PhoreCloudTool($templateDir, $targetDir, phore_log());
 $ct->parseRecursive();
+if ($onChange !== null && $ct->isFileModified()) {
+    phore_log()->notice("Some files changed. Executing --onchange action: '$onChange'");
+    phore_exec($onChange);
+}
 
 function printHelp(string $errorMsg=null)
 {
@@ -62,8 +73,9 @@ Options:
   -h, --help              Show Help and exit
       --tpldir string     The template directory to read templates from (default: PWD)
       --target string     The target directory (default: /)
+      --onchange string   Execute a script if any file was changed
   -s                      Silent mode (don't output data except for errors)
-
+      --debug             Be very verbose (debugging). Overrides -s
 
 EOT;
 }
