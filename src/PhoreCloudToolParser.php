@@ -6,6 +6,7 @@ namespace Phore\CloudTool;
 
 use Leuffen\TextTemplate\TextTemplate;
 use Phore\FileSystem\PhoreDirectory;
+use Phore\FileSystem\PhoreFile;
 use Phore\FileSystem\PhoreUri;
 use Psr\Log\LoggerInterface;
 
@@ -70,48 +71,19 @@ class PhoreCloudToolParser extends TextTemplate
         return $this->isFileModified;
     }
 
-
-    public function parseFile(PhoreUri $relPath, PhoreDirectory $templateRoot, PhoreDirectory $targetDirectory, array $environment=[])
+    public function parseFile(PhoreFile $templateFile, $environment) : string
     {
-
-
-        $this->onAfterParse = [];
-        $this->onModified = [];
-
-        $templateFile = $templateRoot->withSubPath($relPath)->assertFile();
-        $targetFile = $targetDirectory->withSubPath($relPath)->asFile();
-
-        $this->log->debug("Parsing $templateFile -> $targetFile");
-
         $this->loadTemplate($templateFile->get_contents());
 
-        $environment["_target_file"] = $targetFile->getUri();
+        $environment["_target_file"] = $templateFile->getUri();
 
         try {
-            $configText = $this->apply($environment, false);
+            return $this->apply($environment, false);
         } catch (\Exception $e) {
             throw new \InvalidArgumentException("Parsing $templateFile: " . $e->getMessage());
         }
-        if ($targetFile->isFile()) {
-            if ($targetFile->get_contents() === $configText) {
-                $this->log->debug("File not modified.");
-
-                return false;
-            }
-        }
-
-        $this->isFileModified = true;
-        $targetFile->getDirname()->asDirectory()->mkdir(0755);
-        $targetFile->set_contents($configText);
-        $this->log->notice("File modified: '$templateFile' -> '$targetFile'. Running triggers.");
-        foreach ($this->onAfterSave as $fn)
-            $fn();
-
-        foreach ($this->onModified as $fn)
-            $fn();
-
-
     }
+
 
 
 }

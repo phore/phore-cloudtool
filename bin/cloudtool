@@ -20,14 +20,14 @@ set_exception_handler(function ($ex) {
     PhoreConsoleColor::SetColor("black", "red");
     echo "\n";
     echo "\n  " . implode(" ", $GLOBALS["argv"]);
-    echo "\n  Emergency: " . $ex->getMessage() . "\n";
+    echo "\n  Emergency: " . $ex->getMessage() . " (File: {$ex->getFile()}: Line: {$ex->getLine()}\n";
     PhoreConsoleColor::Default();
     echo "\n";
 
     exit(254);
 });
 
-$opts = phore_getopt("hs", ["tpldir:", "target:", "onchange:", "debug", "watch"]);
+$opts = phore_getopt("hs", ["tpldir:", "target:", "onchange:", "autoload:", "debug", "watch"]);
 
 if ($opts->has("h") || $opts->has("help")) {
     printHelp();
@@ -41,6 +41,8 @@ $onChange =    $opts->get("onchange", null);
 $watch =        $opts->has("watch");
 $silent =       $opts->has("s");
 $debug =        $opts->has("debug");
+$autoload =     $opts->get("autoload", null);
+
 
 phore_log()->setLogLevel(LogLevel::NOTICE);
 if ($silent) {
@@ -48,6 +50,11 @@ if ($silent) {
 }
 if ($debug) {
     phore_log()->setLogLevel(LogLevel::DEBUG);
+}
+
+if ($autoload !== null) {
+    phore_log("Loading autoload file '$autoload'");
+    require $autoload;
 }
 
 do {
@@ -58,7 +65,7 @@ do {
         phore_exec($onChange);
     }
     if ($watch) {
-        sleep(1);
+        sleep(2);
     }
 } while ($watch);
 
@@ -78,6 +85,7 @@ Options:
       --tpldir string     The template directory to read templates from (default: PWD)
       --target string     The target directory (default: /)
       --onchange string   Execute a script if any file was changed
+      --autoload string   Autoload php file on startup
   -s                      Silent mode (don't output data except for errors)
       --debug             Be very verbose (debugging). Overrides -s
       --watch             Parse files if they change 
