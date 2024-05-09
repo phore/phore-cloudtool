@@ -17,10 +17,10 @@
     "require": {
         "php": ">=7.2",
         "ext-pcre": "*",
-        "text/template": "dev-master",
-        "phore/filesystem": "dev-master",
-        "phore/system": "dev-master",
-        "phore/log": "dev-master"
+        "text/template": "v2.8.5",
+        "phore/filesystem": "^v1.1.0",
+        "phore/system": "^v1.1.0",
+        "phore/log": "^v1.1.1"
     },
     "require-dev": {
 
