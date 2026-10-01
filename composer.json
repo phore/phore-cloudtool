@@ -15,12 +15,12 @@
         "bin/cloudtool"
     ],
     "require": {
-        "php": ">=7.2",
+        "php": ">=8.5",
         "ext-pcre": "*",
         "text/template": "^2.8.5",
         "phore/filesystem": "^1.1.0",
         "phore/system": "^1.1.0",
-        "phore/log": "^1.1.1"
+        "phore/log": "^3.0.0"
     },
     "require-dev": {
 
