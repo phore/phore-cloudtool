@@ -22,8 +22,11 @@
         "phore/system": "^1.1.0",
         "phore/log": "^1.1.1"
     },
+    "scripts": {
+        "test": "phpspec run"
+    },
     "require-dev": {
-
+        "phpspec/phpspec": "^7.6.0"
     },
     "autoload": {
         "psr-4": {

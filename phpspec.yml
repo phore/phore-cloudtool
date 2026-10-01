@@ -1,0 +1,4 @@
+suites:
+  phore_cloudtool:
+    namespace: Phore\CloudTool
+    psr4_prefix: Phore\CloudTool
