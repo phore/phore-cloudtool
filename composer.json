@@ -18,12 +18,16 @@
         "php": ">=7.2",
         "ext-pcre": "*",
         "text/template": "^2.8.5",
+        "phore/core": "1.0.3",
         "phore/filesystem": "^1.0.3",
         "phore/system": "^1.1.0",
         "phore/log": "^1.1.1"
     },
     "require-dev": {
-
+        "phpspec/phpspec": "^7.6 || ^8.3"
+    },
+    "scripts": {
+        "test": "phpspec run"
     },
     "autoload": {
         "psr-4": {
